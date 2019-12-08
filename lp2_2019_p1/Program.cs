@@ -6,7 +6,7 @@ namespace lp2_2019_p1
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Menu menu = new Menu();
         }
     }
 }
