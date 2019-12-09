@@ -6,6 +6,8 @@ namespace lp2_2019_p1
 {
     class Menu
     {
+        FileManager file = new FileManager();
+        Searcher searcher = new Searcher();
         public Menu()
         {
             Execute();
@@ -14,6 +16,7 @@ namespace lp2_2019_p1
         private void Execute()
         {
             Console.Write("Test");
+            
         }
     }
 }
