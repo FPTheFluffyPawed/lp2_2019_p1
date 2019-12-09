@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.IO.Compression;
-using System.Diagnostics;
 
 namespace lp2_2019_p1
 {
@@ -11,19 +10,30 @@ namespace lp2_2019_p1
     {
         private const string appName = "MyIMDBSearcher";
         private const string fileTitleBasics = "title.basics.tsv.gz";
-        private string folderWithFiles = Path.Combine(
-            Environment.GetFolderPath(
-                Environment.SpecialFolder.LocalApplicationData), appName);
+        private string folderWithFiles, fileTitleBasicsFull;
+        public ICollection<StructTitle> Titles { get; set; }
+
+        private int numTitles = 0;
 
         public FileManager()
         {
-            OpenTitlesFile();
+            // Set the paths.
+            folderWithFiles = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), appName);
+            fileTitleBasicsFull = Path.Combine(folderWithFiles, fileTitleBasics);
+
+            // Count the lines in the file.
+            OpenTitlesFile((line) => numTitles++);
+
+            // Create our list with a maximum.
+            Titles = new List<StructTitle>(numTitles);
+
+            // Read the information from file and add it to our collection.
+            OpenTitlesFile(AddInformationToList);
         }
 
-        private void OpenTitlesFile()
+        private void OpenTitlesFile(Action<string> actionForEachLine)
         {
-            string fileTitleBasicsFull = Path.Combine(
-                folderWithFiles, fileTitleBasics);
+
 
             using (FileStream fs = new FileStream(
                 fileTitleBasicsFull, FileMode.Open, FileAccess.Read))
@@ -35,20 +45,30 @@ namespace lp2_2019_p1
                     {
                         string line;
 
+                        // Skip the first line of the folder.
                         sr.ReadLine();
 
+                        // Read through every line.
                         while((line = sr.ReadLine()) != null)
                         {
-                            
+                            actionForEachLine.Invoke(line);
                         }
                     }
                 }
             }
         }
 
-        private void LineToTitle()
+        private void AddInformationToList(string line)
         {
+            /*
+             * 0 = identifier, 1 = type, 2 = primaryTitle, 3 = originalTitle
+             * 4 = isAdult, 5 = startYear, 6 = endYear, 7 = runtimeMinutes
+             * 8 = genres
+             */
 
+            short aux;
+            string[] fields = line.Split("\t");
+            string[] titleGenres;
         }
     }
 }

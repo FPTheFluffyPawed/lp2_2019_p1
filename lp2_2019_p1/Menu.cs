@@ -8,15 +8,19 @@ namespace lp2_2019_p1
     {
         FileManager file = new FileManager();
         Searcher searcher = new Searcher();
+
+        string hello = "hi";
+
         public Menu()
         {
             Execute();
+            Console.WriteLine(hello);
         }
 
         private void Execute()
         {
             Console.Write("Test");
-            
+            hello = "hello";
         }
     }
 }
