@@ -2,8 +2,8 @@
 
 ### Autores
 * Inácio Amerio, 21803493
-* João Dias,
-* Diogo Henriques, 
+* João Dias, 21803573
+* Diogo Henriques, 21802132
 
 ## Arquitetura da solução
 
