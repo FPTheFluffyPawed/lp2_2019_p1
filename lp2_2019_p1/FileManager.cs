@@ -145,6 +145,8 @@ namespace lp2_2019_p1
             StructTitle t = new StructTitle(
                 titleType, titlePrimaryTitle, titleAdult, titleStartYear,
                 titleEndYear, cleanTitleGenres.ToArray());
+
+            Titles.Add(t);
         }
     }
 }
