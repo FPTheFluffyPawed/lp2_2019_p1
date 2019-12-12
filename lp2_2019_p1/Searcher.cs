@@ -13,17 +13,50 @@ namespace lp2_2019_p1
 
         StructTitle[] queryResults;
 
-        private IEnumerable<StructTitle> titles;
+        string searchName, searchStartYear;
 
-        public void NameFilter(string name)
+        private FileManager titles = new FileManager();
+
+        public string NameInputFilter()
+        {
+            Console.WriteLine("'Name' to search for: ");
+            string input = Console.ReadLine();
+            searchName = input;
+            return searchName;
+        }
+
+        public string StartYearInputFilter()
+        {
+            Console.WriteLine("Start year of the title: ");
+            string input = Console.ReadLine();
+            searchStartYear = input;
+            return searchStartYear;
+        }
+
+        public void Filter()
         {
             queryResults =
-                 (from title in titles
-                  where title.PrimaryTitle.ToLower().Contains(name)
-                  select title)
-                 .OrderBy(title => title.StartYear)
-                 .ThenBy(title => title.PrimaryTitle)
-                 .ToArray();
+                (from title in titles.Titles
+                 where title.PrimaryTitle.ToLower().Contains(searchName)
+                 where title.StartYear.ToString().Contains(searchStartYear)
+                 select title)
+                .ToArray();
+        }
+
+        public void OrderBy(int orderBy)
+        {
+            // do a switch case 'order by' of the query, all goes here etc
+        }
+
+        public void ShowResults()
+        {
+            //queryResults =
+            //    (from title in titles.Titles
+            // where title.PrimaryTitle.ToLower().Contains(name)
+            //  select title)
+            //       .OrderBy(title => title.StartYear)
+            //       .ThenBy(title => title.PrimaryTitle)
+            //       .ToArray();
 
             // Mostrar os títulos, 10 de cada vez
             while (numTitlesShown < queryResults.Length)
