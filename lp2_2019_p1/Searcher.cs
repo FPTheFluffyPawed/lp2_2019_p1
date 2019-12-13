@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace lp2_2019_p1
 {
     class Searcher
     {
-        /*
+        
         int numTitlesShown = 0;
         int numTitlesToShowOnScreen = 10;
 
@@ -31,7 +32,7 @@ namespace lp2_2019_p1
         public string NameInputFilter()
         {
             Console.WriteLine("'Name' to search for: ");
-            string input = Console.ReadLine();
+            string input = Console.ReadLine().ToLower();
             searchPrimaryTitle = input;
             return searchPrimaryTitle;
         }
@@ -40,7 +41,7 @@ namespace lp2_2019_p1
         {
             // NOT DONE.
             Console.WriteLine("For adults? [0] for False, [1] for True.");
-            string input = Console.ReadLine();
+            string input = Console.ReadLine().ToLower();
             searchForAdults = input;
             return searchForAdults;
         }
@@ -48,7 +49,7 @@ namespace lp2_2019_p1
         public string StartYearInputFilter()
         {
             Console.WriteLine("Start year of the title: ");
-            string input = Console.ReadLine();
+            string input = Console.ReadLine().ToLower();
             searchStartYear = input;
             return searchStartYear;
         }
@@ -56,7 +57,7 @@ namespace lp2_2019_p1
         public string EndYearInputFilter()
         {
             Console.WriteLine("End year of the title: ");
-            string input = Console.ReadLine();
+            string input = Console.ReadLine().ToLower();
             searchEndYear = input;
             return searchEndYear;
         }
@@ -79,18 +80,18 @@ namespace lp2_2019_p1
         {
             // Missing genres filter, need a way to make it work so we can get
             // it from our array of searchGenres, and apply the elements from
-            // the array onto our Contains.
 
             queryResults =
                 (from title in titles.Titles
-                 where title.TitleType.ToLower().Contains(searchType)
-                 where title.PrimaryTitle.ToLower().Contains(searchPrimaryTitle)
-                 where title.ForAdults.ToString().ToLower().Contains(searchForAdults)
-                 where title.StartYear.ToString().ToLower().Contains(searchStartYear)
-                 where title.EndYear.ToString().ToLower().Contains(searchEndYear)
+                 where ContainString(title.TitleType, searchType)
+                 where ContainString(title.PrimaryTitle, searchPrimaryTitle)
+                 where ContainString(title.ForAdults.ToString(), searchForAdults)
+                 where ContainString(title.StartYear.ToString(), searchStartYear)
+                 where ContainString(title.EndYear.ToString(), searchEndYear)
                  //where title.searchGenres, etc etc
                  select title)
                 .ToArray();
+
         }
 
         public void OrderBy(int orderBy)
@@ -100,13 +101,6 @@ namespace lp2_2019_p1
 
         public void ShowResults()
         {
-            //queryResults =
-            //    (from title in titles.Titles
-            // where title.PrimaryTitle.ToLower().Contains(name)
-            //  select title)
-            //       .OrderBy(title => title.StartYear)
-            //       .ThenBy(title => title.PrimaryTitle)
-            //       .ToArray();
 
             // Mostrar os títulos, 10 de cada vez
             while (numTitlesShown < queryResults.Length)
@@ -143,7 +137,16 @@ namespace lp2_2019_p1
                 // Próximos 10
                 numTitlesShown += numTitlesToShowOnScreen;
             }
-        }*/
+        }
+        // the array onto our Contains.
+
+        private bool ContainString(string property, string? varstring)
+        {
+            bool b;
+            if (varstring == null) { b = true; } else { b = property.ToLower().Contains(varstring); }
+            return b;
+
+        }
     }
         
 }

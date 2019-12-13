@@ -66,7 +66,10 @@ namespace lp2_2019_p1
         }
         private void SearchPerTitle()
         {
-            string title = Console.ReadLine();
+            string name;
+            name = searcher.NameInputFilter();
+            searcher.Filter();
+            searcher.ShowResults();
             // show list
 
             historic.Add(currentMenu);
