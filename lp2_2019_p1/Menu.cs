@@ -11,9 +11,10 @@ namespace lp2_2019_p1
         string currentMenu;
 
         Searcher searcher = new Searcher();
-
+      
         public Menu()
         {
+            Console.WriteLine("Loading");
             Execute();
         }
 
