@@ -13,11 +13,11 @@ namespace lp2_2019_p1
         Searcher searcher = new Searcher();
 
         string userAnswer = Console.ReadLine();
-
+      
         public Menu()
         {
+            Console.WriteLine("Loading");
             Execute();
-            Console.WriteLine(hello);
         }
 
         private void Execute()
