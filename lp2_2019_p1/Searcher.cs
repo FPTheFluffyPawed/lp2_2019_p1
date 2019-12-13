@@ -123,6 +123,7 @@ namespace lp2_2019_p1
 
                     // Mostrar informação sobre o título
                     Console.Write("\t\t* ");
+                    Console.Write("{0} - ",i+1);
                     Console.Write($"\"{title.PrimaryTitle}\" ");
                     Console.Write($"({title.StartYear?.ToString() ?? "unknown year"}): ");
                     foreach (string genre in title.Genres)
@@ -134,6 +135,19 @@ namespace lp2_2019_p1
                     Console.WriteLine();
                 }
 
+
+                Console.WriteLine("Choose your option:");
+                Console.WriteLine("1 - Choose your title \n2 - Exit search \nAny onther key to continue search");
+                switch (Console.ReadLine())
+                {
+                    case "1":
+
+                        break;
+                    case "2":
+                        return;
+                    default:
+                            break;
+                }
                 // Próximos 10
                 numTitlesShown += numTitlesToShowOnScreen;
             }
@@ -146,6 +160,18 @@ namespace lp2_2019_p1
             if (varstring == null) { b = true; } else { b = property.ToLower().Contains(varstring); }
             return b;
 
+        }
+
+        private void ChooseTitle()
+        {
+            int choice;
+            Console.Write("Type the number of you choosen title:");
+            choice = Convert.ToInt32(Console.ReadLine());
+
+            //ver agora os detalhos do titulo selecionado//
+
+            //Detail(queryResults[choice]);
+            
         }
     }
         

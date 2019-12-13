@@ -23,8 +23,8 @@ namespace lp2_2019_p1
             menus.Add("menu1", "1 - Choose by title \n2 - Choose by people \nb - Back");
 
             // titles path (decision 1)
-            menus.Add("menu2", "1 - Type the name of the show/movie \nb - Back");
-            menus.Add("menu3", "1 - Show more details \nb - Back");
+            menus.Add("menu2", "1 - Filter type \n2 - Show results \nb - Back");
+            menus.Add("menu3", "1 -  \nb - Back");
             menus.Add("menu4", "b - Back");
 
             // people path (decision 2)
@@ -48,8 +48,15 @@ namespace lp2_2019_p1
                         else if (currentMenu == "menu2") SearchPerTitle();
                         break; 
                     case "2":
+                        if (currentMenu == "menu1")
+                        {
+
+                        }
                         if (currentMenu == "menu2")
                         {
+                            searcher.Filter();
+                            searcher.ShowResults();
+
                             historic.Add(currentMenu);
                             currentMenu = "menu3";
                         }
@@ -66,14 +73,16 @@ namespace lp2_2019_p1
         }
         private void SearchPerTitle()
         {
-            string name;
-            name = searcher.NameInputFilter();
-            searcher.Filter();
-            searcher.ShowResults();
-            // show list
+            searcher.TypeInputFilter();
+            searcher.NameInputFilter();
+            searcher.AdultsInputFilter();
+            searcher.StartYearInputFilter();
+            searcher.EndYearInputFilter();
+            //searcher.GenresInputFilter();
+        }
+        private void OptionFilter()
+        {
 
-            historic.Add(currentMenu);
-            currentMenu = "menu3";
         }
 
         private void SearchPerPerson()
