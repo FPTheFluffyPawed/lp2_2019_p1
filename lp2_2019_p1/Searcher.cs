@@ -13,16 +13,36 @@ namespace lp2_2019_p1
 
         StructTitle[] queryResults;
 
-        string searchName, searchStartYear;
+        string searchType, searchPrimaryTitle, searchForAdults,
+            searchStartYear, searchEndYear;
+        string[] searchGenres;
 
         private FileManager titles = new FileManager();
+
+        public string TypeInputFilter()
+        {
+            Console.WriteLine("From the list of types, choose one.");
+            Console.WriteLine($"There is {titles.AllTypes.Count()} types.");
+            string input = Console.ReadLine();
+            searchType = input;
+            return searchType;
+        }
 
         public string NameInputFilter()
         {
             Console.WriteLine("'Name' to search for: ");
             string input = Console.ReadLine();
-            searchName = input;
-            return searchName;
+            searchPrimaryTitle = input;
+            return searchPrimaryTitle;
+        }
+
+        public string AdultsInputFilter()
+        {
+            // NOT DONE.
+            Console.WriteLine("For adults? [0] for False, [1] for True.");
+            string input = Console.ReadLine();
+            searchForAdults = input;
+            return searchForAdults;
         }
 
         public string StartYearInputFilter()
@@ -33,12 +53,42 @@ namespace lp2_2019_p1
             return searchStartYear;
         }
 
+        public string EndYearInputFilter()
+        {
+            Console.WriteLine("End year of the title: ");
+            string input = Console.ReadLine();
+            searchEndYear = input;
+            return searchEndYear;
+        }
+
+        public string[] GenresInputFilter()
+        {
+            // NOT DONE.
+            Console.WriteLine("From the list of genres, choose a maximum of" +
+                "three, separating each one with a ','.\nIf you rather leave" +
+                "it blank, simply press ENTER.\nExample: 'documentary,horror'");
+            Console.Write($"There is {titles.AllGenres.Count} genres.");
+            string[] input = new string[2];
+            for (int i = 0; i < input.Length; i++)
+                input[i] = Console.ReadLine();
+            searchGenres = input;
+            return searchGenres;
+        }
+
         public void Filter()
         {
+            // Missing genres filter, need a way to make it work so we can get
+            // it from our array of searchGenres, and apply the elements from
+            // the array onto our Contains.
+
             queryResults =
                 (from title in titles.Titles
-                 where title.PrimaryTitle.ToLower().Contains(searchName)
-                 where title.StartYear.ToString().Contains(searchStartYear)
+                 where title.TitleType.ToLower().Contains(searchType)
+                 where title.PrimaryTitle.ToLower().Contains(searchPrimaryTitle)
+                 where title.ForAdults.ToString().ToLower().Contains(searchForAdults)
+                 where title.StartYear.ToString().ToLower().Contains(searchStartYear)
+                 where title.EndYear.ToString().ToLower().Contains(searchEndYear)
+                 //where title.searchGenres, etc etc
                  select title)
                 .ToArray();
         }
