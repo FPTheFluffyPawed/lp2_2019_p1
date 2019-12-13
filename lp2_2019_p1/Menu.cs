@@ -11,8 +11,6 @@ namespace lp2_2019_p1
         string currentMenu;
 
         Searcher searcher = new Searcher();
-
-        string userAnswer = Console.ReadLine();
       
         public Menu()
         {
@@ -47,7 +45,7 @@ namespace lp2_2019_p1
                             historic.Add(currentMenu);
                             currentMenu = "menu2";
                         }
-                        if (currentMenu == "menu2") SearchPerTitle();
+                        else if (currentMenu == "menu2") SearchPerTitle();
                         break; 
                     case "2":
                         if (currentMenu == "menu2")
