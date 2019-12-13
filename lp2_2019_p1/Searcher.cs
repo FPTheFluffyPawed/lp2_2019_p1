@@ -7,7 +7,7 @@ namespace lp2_2019_p1
 {
     class Searcher
     {
-
+        /*
         int numTitlesShown = 0;
         int numTitlesToShowOnScreen = 10;
 
@@ -143,7 +143,7 @@ namespace lp2_2019_p1
                 // Próximos 10
                 numTitlesShown += numTitlesToShowOnScreen;
             }
-        }
+        }*/
     }
         
 }
