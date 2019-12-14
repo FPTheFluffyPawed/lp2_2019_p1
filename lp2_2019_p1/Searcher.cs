@@ -157,6 +157,8 @@ namespace lp2_2019_p1
 
         public void ShowResults()
         {
+            // Reset back to 0.
+            numTitlesShown = 0;
 
             // Mostrar os títulos, 10 de cada vez
             while (numTitlesShown < queryResults.Length)
@@ -216,6 +218,8 @@ namespace lp2_2019_p1
                 // Próximos 10
                 numTitlesShown += numTitlesToShowOnScreen;
             }
+            // Clear the filter when we're done.
+            queryResults = null;
         }
 
         private bool ContainString(string property, string? varstring)
