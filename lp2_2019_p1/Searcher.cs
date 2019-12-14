@@ -18,6 +18,8 @@ namespace lp2_2019_p1
             searchStartYear, searchEndYear;
         string[] searchGenres;
 
+        object searchOrderBy;
+
         private FileManager titles = new FileManager();
 
         public string TypeInputFilter()
@@ -64,23 +66,20 @@ namespace lp2_2019_p1
 
         public string[] GenresInputFilter()
         {
-            // NOT DONE.
-            Console.WriteLine("From the list of genres, choose a maximum of" +
-                "three, separating each one with a ','.\nIf you rather leave" +
-                "it blank, simply press ENTER.\nExample: 'documentary,horror'");
-            Console.Write($"There is {titles.AllGenres.Count} genres.");
-            string[] input = new string[2];
-            for (int i = 0; i < input.Length; i++)
-                input[i] = Console.ReadLine();
-            searchGenres = input;
+            Console.WriteLine("Write up to 3 genres, according to the list.");
+            foreach (string genre in titles.AllGenres)
+                Console.Write($"{genre}\n");
+            Console.Write("This is case-sensitive, so please type your" +
+                " three genres exactly like the list!");
+            string input = Console.ReadLine();
+            string[] inputArray = new string[2];
+            inputArray = input.Split(",");
+            searchGenres = inputArray;
             return searchGenres;
         }
 
         public void Filter()
         {
-            // Missing genres filter, need a way to make it work so we can get
-            // it from our array of searchGenres, and apply the elements from
-
             queryResults =
                 (from title in titles.Titles
                  where ContainString(title.TitleType, searchType)
@@ -88,15 +87,40 @@ namespace lp2_2019_p1
                  where ContainString(title.ForAdults.ToString(), searchForAdults)
                  where ContainString(title.StartYear.ToString(), searchStartYear)
                  where ContainString(title.EndYear.ToString(), searchEndYear)
-                 //where title.searchGenres, etc etc
+                 where searchGenres == null ||
+                 !searchGenres.Except(title.Genres).Any()
                  select title)
                 .ToArray();
 
+            // Order all our results and assign it to our queryResult.
+            queryResults = OrderByResultsBy(queryResults);
         }
 
-        public void OrderBy(int orderBy)
+        private StructTitle[] OrderByResultsBy(StructTitle[] titles)
         {
-            // do a switch case 'order by' of the query, all goes here etc
+            Console.WriteLine("Order your list by..." +
+                "\n1 - Type" +
+                "\n2 - Name" +
+                "\n3 - For Adults" +
+                "\n4 - Start Year" +
+                "\n5 - End Year");
+            string input = Console.ReadLine();
+            short orderBy = Convert.ToInt16(input);
+
+            // Order by based on the option picked!
+            switch (orderBy)
+            {
+                case 1:
+                    return titles.OrderBy(t => t.TitleType).ToArray();
+                case 2:
+                    return titles.OrderBy(t => t.PrimaryTitle).ToArray();
+                case 3:
+                    return titles.OrderBy(t => t.ForAdults).ToArray();
+                case 4:
+                    return titles.OrderBy(t => t.StartYear).ToArray();
+                default:
+                    return titles.OrderBy(t => t.EndYear).ToArray();
+            }
         }
 
         public void ShowResults()
@@ -105,6 +129,7 @@ namespace lp2_2019_p1
             // Mostrar os títulos, 10 de cada vez
             while (numTitlesShown < queryResults.Length)
             {
+                Console.WriteLine($"Found {queryResults.Length} titles.");
                 Console.WriteLine(
                     $"\t=> Press key to see next {numTitlesToShowOnScreen} titles...");
                 Console.ReadKey(true);
@@ -125,6 +150,7 @@ namespace lp2_2019_p1
                     Console.Write("\t\t* ");
                     Console.Write($"\"{title.PrimaryTitle}\" ");
                     Console.Write($"({title.StartYear?.ToString() ?? "unknown year"}): ");
+                    Console.Write($"For adults: {title.ForAdults.ToString()} ");
                     foreach (string genre in title.Genres)
                     {
                         if (!firstGenre) Console.Write("/ ");
@@ -138,14 +164,17 @@ namespace lp2_2019_p1
                 numTitlesShown += numTitlesToShowOnScreen;
             }
         }
-        // the array onto our Contains.
 
         private bool ContainString(string property, string? varstring)
         {
             bool b;
-            if (varstring == null) { b = true; } else { b = property.ToLower().Contains(varstring); }
-            return b;
 
+            if (varstring == null)
+                b = true;
+            else
+                b = property.ToLower().Contains(varstring);
+
+            return b;
         }
     }
         
