@@ -47,7 +47,7 @@ namespace lp2_2019_p1
                         }
                         else if (currentMenu == "menu2") SearchPerTitle();
                         break;
-                    /*
+                    
                     case "2":
                         if (currentMenu == "menu1")
                         {
@@ -59,7 +59,7 @@ namespace lp2_2019_p1
                             searcher.ShowResults();
                         }
                         break;
-                    */
+                    
                     case "b":
                         currentMenu = historic[historic.Count - 1];
                         historic.RemoveAt(historic.Count - 1);
