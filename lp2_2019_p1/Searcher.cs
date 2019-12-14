@@ -91,7 +91,12 @@ namespace lp2_2019_p1
         {
             Console.WriteLine("Between 0 to 10, choose a number.");
             string input = Console.ReadLine();
-            searchRatings = input;
+
+            if (string.IsNullOrEmpty(input))
+                searchRatings = input;
+            else
+                searchRatings = "0";
+
             return searchRatings;
         }
 
@@ -106,7 +111,7 @@ namespace lp2_2019_p1
                  where ContainString(title.ForAdults.ToString(), searchForAdults)
                  where ContainString(title.StartYear.ToString(), searchStartYear)
                  where ContainString(title.EndYear.ToString(), searchEndYear)
-                 where ContainString(tR.RatingsAverage, searchRatings)
+                 where tR.RatingsAverage >= float.Parse(searchRatings)
                  where (searchGenres == null ||
                  !searchGenres.Except(title.Genres).Any())
                   select new StructTitleTotal
@@ -133,7 +138,8 @@ namespace lp2_2019_p1
                 "\n2 - Name" +
                 "\n3 - For Adults" +
                 "\n4 - Start Year" +
-                "\n5 - End Year");
+                "\n5 - End Year" +
+                "\n6 - Rating");
             string input = Console.ReadLine();
             short orderBy = Convert.ToInt16(input);
 
@@ -187,8 +193,8 @@ namespace lp2_2019_p1
 
                     Console.Write("R: {0} - ", queryResults[i].RRatingsAverage);
                     Console.Write($"\"{queryResults[i].RPrimaryTitle}\" ");
-                    Console.Write($"({queryResults[i].RStartYear?.ToString() ?? "unknown year"}): ");
-                    //Console.Write($"A: {queryResults[i].RForAdults.ToString()} ");
+                    Console.Write($"({queryResults[i].RStartYear?.ToString() ?? "N/A"}): ");
+                    Console.Write($"A: {queryResults[i].RForAdults.ToString()} ");
                     foreach (string genre in queryResults[i].RGenres)
                     {
                         if (!firstGenre) Console.Write("/ ");
@@ -220,6 +226,8 @@ namespace lp2_2019_p1
             }
             // Clear the filter when we're done.
             queryResults = null;
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
 
         private bool ContainString(string property, string? varstring)
@@ -245,7 +253,7 @@ namespace lp2_2019_p1
                 $"\nName: {queryResults[choice].RPrimaryTitle}" +
                 $"\nAdult: {queryResults[choice].RForAdults}" +
                 $"\nStart Year: {queryResults[choice].RStartYear}" +
-                $"\nEnd Year: {queryResults[choice].REndYear?.ToString() ?? "Unknown." }");
+                $"\nEnd Year: {queryResults[choice].REndYear?.ToString() ?? "N/A" }");
             foreach (string genre in queryResults[choice].RGenres)
                 Console.WriteLine($"\nGenres: {genre} /");
 
