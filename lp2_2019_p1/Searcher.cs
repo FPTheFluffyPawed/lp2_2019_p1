@@ -72,8 +72,17 @@ namespace lp2_2019_p1
             Console.WriteLine("\nThis is case-sensitive, so please type your" +
                 " three genres exactly like the list!");
             string input = Console.ReadLine();
-            string[] inputArray = new string[2];
-            inputArray = input.Split(",");
+            string[] inputArray = new string[3];
+
+            if(input == "")
+            {
+                inputArray = null;
+            }
+            else
+            {
+                inputArray = input.Split(",");
+            }
+
             searchGenres = inputArray;
             return searchGenres;
         }
@@ -87,8 +96,8 @@ namespace lp2_2019_p1
                  where ContainString(title.ForAdults.ToString(), searchForAdults)
                  where ContainString(title.StartYear.ToString(), searchStartYear)
                  where ContainString(title.EndYear.ToString(), searchEndYear)
-                 where searchGenres == null ||
-                 !searchGenres.Except(title.Genres).Any()
+                 where (searchGenres == null ||
+                 !searchGenres.Except(title.Genres).Any())
                  select title)
                 .ToArray();
 
@@ -129,10 +138,11 @@ namespace lp2_2019_p1
             // Mostrar os títulos, 10 de cada vez
             while (numTitlesShown < queryResults.Length)
             {
+                Console.WriteLine(" --- ");
                 Console.WriteLine($"Found {queryResults.Length} titles.");
-                Console.WriteLine(
-                    $"\t=> Press key to see next {numTitlesToShowOnScreen} titles...");
-                Console.ReadKey(true);
+                //Console.WriteLine(
+                //    $"\t=> Press key to see next {numTitlesToShowOnScreen} titles...");
+                //Console.ReadKey(true);
 
                 // Mostrar próximos 10
                 for (int i = numTitlesShown;
@@ -147,7 +157,7 @@ namespace lp2_2019_p1
                     StructTitle title = queryResults[i];
 
                     // Mostrar informação sobre o título
-                    Console.Write("\t\t* ");
+                    Console.Write("\t* ");
                     Console.Write("{0} - ",i+1);
                     Console.Write($"\"{title.PrimaryTitle}\" ");
                     Console.Write($"({title.StartYear?.ToString() ?? "unknown year"}): ");
@@ -163,16 +173,19 @@ namespace lp2_2019_p1
 
 
                 Console.WriteLine("Choose your option:");
-                Console.WriteLine("1 - Choose your title \n2 - Exit search \nAny onther key to continue search");
+                Console.WriteLine("1 - Choose your title | 2 - Exit search | Any onther key to continue search");
                 switch (Console.ReadLine())
                 {
                     case "1":
-
+                        ChooseTitle();
                         break;
                     case "2":
-                        return;
+                        // Setting the numTitlesShown to the same as the length
+                        // forces us out of the loop.
+                        numTitlesShown = queryResults.Length;
+                        break;
                     default:
-                            break;
+                        break;
                 }
                 // Próximos 10
                 numTitlesShown += numTitlesToShowOnScreen;
@@ -198,7 +211,18 @@ namespace lp2_2019_p1
             choice = Convert.ToInt32(Console.ReadLine());
 
             //ver agora os detalhos do titulo selecionado//
+            Console.WriteLine($"Type: {queryResults[choice].TitleType}" +
+                $"\nName: {queryResults[choice].PrimaryTitle}" +
+                $"\nAdult: {queryResults[choice].ForAdults}" +
+                $"\nStart Year: {queryResults[choice].StartYear}" +
+                $"\nEnd Year: {queryResults[choice].EndYear}");
+            foreach (string genre in queryResults[choice].Genres)
+                Console.WriteLine($"\nGenres: {genre} /");
 
+            Console.WriteLine("Press any key to exit...\n");
+
+            // Exit when a key is pressed. Phase 3 implementation goes here.
+            Console.ReadKey(true);
             //Detail(queryResults[choice]);
             
         }
