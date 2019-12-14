@@ -18,14 +18,14 @@ namespace lp2_2019_p1
             searchStartYear, searchEndYear;
         string[] searchGenres;
 
-        object searchOrderBy;
-
         private FileManager titles = new FileManager();
 
         public string TypeInputFilter()
         {
             Console.WriteLine("From the list of types, choose one.");
-            Console.WriteLine($"There is {titles.AllTypes.Count()} types.");
+            foreach (string type in titles.AllTypes)
+                Console.Write($"{type} ");
+            Console.WriteLine("\nWrite the type you want to search (or not).");
             string input = Console.ReadLine();
             searchType = input;
             return searchType;
@@ -68,8 +68,8 @@ namespace lp2_2019_p1
         {
             Console.WriteLine("Write up to 3 genres, according to the list.");
             foreach (string genre in titles.AllGenres)
-                Console.Write($"{genre}\n");
-            Console.Write("This is case-sensitive, so please type your" +
+                Console.Write($"{genre} ");
+            Console.WriteLine("\nThis is case-sensitive, so please type your" +
                 " three genres exactly like the list!");
             string input = Console.ReadLine();
             string[] inputArray = new string[2];
