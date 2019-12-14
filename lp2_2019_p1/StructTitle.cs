@@ -6,6 +6,9 @@ namespace lp2_2019_p1
 {
     public struct StructTitle
     {
+        // Unique identifier.
+        public string TitleIdentifier { get; }
+
         // Type of title.
         public string TitleType { get; }
 
@@ -25,9 +28,11 @@ namespace lp2_2019_p1
         public IEnumerable<string> Genres { get; }
 
         public StructTitle(
-            string titleType, string primaryTitle, bool forAdults,
-            short? startYear, short? endYear, IEnumerable<string> genres)
+            string titleIdentifier, string titleType, string primaryTitle,
+            bool forAdults, short? startYear, short? endYear,
+            IEnumerable<string> genres)
         {
+            TitleIdentifier = titleIdentifier;
             TitleType = titleType;
             PrimaryTitle = primaryTitle;
             ForAdults = forAdults;

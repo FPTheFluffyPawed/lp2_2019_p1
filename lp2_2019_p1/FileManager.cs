@@ -89,6 +89,7 @@ namespace lp2_2019_p1
 
             short aux;
             string[] fields = line.Split("\t");
+            string titleIdentifier = fields[0];
             string titleType = fields[1];
             string titlePrimaryTitle = fields[2];
             bool titleAdult = fields[4] == "0" ? false : true;
@@ -143,8 +144,8 @@ namespace lp2_2019_p1
                 AllGenres.Add(genre);
 
             StructTitle t = new StructTitle(
-                titleType, titlePrimaryTitle, titleAdult, titleStartYear,
-                titleEndYear, cleanTitleGenres.ToArray());
+                titleIdentifier, titleType, titlePrimaryTitle, titleAdult,
+                titleStartYear, titleEndYear, cleanTitleGenres.ToArray());
 
             Titles.Add(t);
         }

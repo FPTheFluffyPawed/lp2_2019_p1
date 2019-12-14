@@ -207,7 +207,7 @@ namespace lp2_2019_p1
         private void ChooseTitle()
         {
             int choice;
-            Console.Write("Type the number of you choosen title:");
+            Console.Write("Type the number of your title:");
             choice = Convert.ToInt32(Console.ReadLine());
 
             //ver agora os detalhos do titulo selecionado//
