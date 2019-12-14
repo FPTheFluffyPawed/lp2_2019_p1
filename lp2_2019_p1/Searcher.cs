@@ -93,9 +93,9 @@ namespace lp2_2019_p1
             string input = Console.ReadLine();
 
             if (string.IsNullOrEmpty(input))
-                searchRatings = input;
-            else
                 searchRatings = "0";
+            else
+                searchRatings = input;
 
             return searchRatings;
         }
