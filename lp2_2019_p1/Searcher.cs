@@ -18,8 +18,6 @@ namespace lp2_2019_p1
             searchStartYear, searchEndYear;
         string[] searchGenres;
 
-        object searchOrderBy;
-
         private FileManager titles = new FileManager();
 
         public string TypeInputFilter()
