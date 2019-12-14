@@ -12,7 +12,7 @@ namespace lp2_2019_p1
         int numTitlesShown = 0;
         int numTitlesToShowOnScreen = 10;
 
-        StructTitle[] queryResults;
+        private StructTitleTotal[] queryResults;
 
         string searchType, searchPrimaryTitle, searchForAdults,
             searchStartYear, searchEndYear, searchRatings;
@@ -99,21 +99,34 @@ namespace lp2_2019_p1
         {
             queryResults =
                  (from title in database.Titles
+                  join ratings in database.Ratings on title.TitleIdentifier equals ratings.RatingsIdentifier into titleWithRatings
+                  from tR in titleWithRatings
                  where ContainString(title.TitleType, searchType)
                  where ContainString(title.PrimaryTitle, searchPrimaryTitle)
                  where ContainString(title.ForAdults.ToString(), searchForAdults)
                  where ContainString(title.StartYear.ToString(), searchStartYear)
                  where ContainString(title.EndYear.ToString(), searchEndYear)
+                 where ContainString(tR.RatingsAverage, searchRatings)
                  where (searchGenres == null ||
                  !searchGenres.Except(title.Genres).Any())
-                 select title)
+                  select new StructTitleTotal
+                  {
+                      RTitleIdentifier = title.TitleIdentifier,
+                      RTitleType = title.TitleType,
+                      RPrimaryTitle = title.PrimaryTitle,
+                      RForAdults = title.ForAdults,
+                      RStartYear = title.StartYear,
+                      REndYear = title.EndYear,
+                      RRatingsAverage = tR.RatingsAverage,
+                      RGenres = title.Genres
+                  })
                  .ToArray();
 
             // Order all our results and assign it to our queryResult.
             queryResults = OrderByResultsBy(queryResults);
         }
 
-        private StructTitle[] OrderByResultsBy(StructTitle[] titles)
+        private StructTitleTotal[] OrderByResultsBy(StructTitleTotal[] titles)
         {
             Console.WriteLine("Order your list by..." +
                 "\n1 - Type" +
@@ -128,15 +141,17 @@ namespace lp2_2019_p1
             switch (orderBy)
             {
                 case 1:
-                    return titles.OrderBy(t => t.TitleType).ToArray();
+                    return titles.OrderBy(t => t.RTitleType).ToArray();
                 case 2:
-                    return titles.OrderBy(t => t.PrimaryTitle).ToArray();
+                    return titles.OrderBy(t => t.RPrimaryTitle).ToArray();
                 case 3:
-                    return titles.OrderBy(t => t.ForAdults).ToArray();
+                    return titles.OrderBy(t => t.RForAdults).ToArray();
                 case 4:
-                    return titles.OrderBy(t => t.StartYear).ToArray();
+                    return titles.OrderBy(t => t.RStartYear).ToArray();
+                case 5:
+                    return titles.OrderBy(t => t.REndYear).ToArray();
                 default:
-                    return titles.OrderBy(t => t.EndYear).ToArray();
+                    return titles.OrderBy(t => t.RRatingsAverage).ToArray();
             }
         }
 
@@ -162,16 +177,17 @@ namespace lp2_2019_p1
                     bool firstGenre = true;
 
                     // Get the current title.
-                    StructTitle title = queryResults[i];
+                    // StructTitleTotal title = queryResults[i];
 
                     // Show information about each title.
                     Console.Write("\t* ");
                     Console.Write("{0} - ",i+1);
-                    Console.Write("R: {0} - ", queryResults[i]);
-                    Console.Write($"\"{title.PrimaryTitle}\" ");
-                    Console.Write($"({title.StartYear?.ToString() ?? "unknown year"}): ");
-                    Console.Write($"For adults: {title.ForAdults.ToString()} ");
-                    foreach (string genre in title.Genres)
+
+                    Console.Write("R: {0} - ", queryResults[i].RRatingsAverage);
+                    Console.Write($"\"{queryResults[i].RPrimaryTitle}\" ");
+                    Console.Write($"({queryResults[i].RStartYear?.ToString() ?? "unknown year"}): ");
+                    //Console.Write($"A: {queryResults[i].RForAdults.ToString()} ");
+                    foreach (string genre in queryResults[i].RGenres)
                     {
                         if (!firstGenre) Console.Write("/ ");
                         Console.Write($"{genre} ");
@@ -182,7 +198,8 @@ namespace lp2_2019_p1
 
 
                 Console.WriteLine("Choose your option:");
-                Console.WriteLine("1 - Choose your title | 2 - Exit search | Any onther key to continue search");
+                Console.WriteLine("1 - Choose your title. |" +
+                    "2 - Exit the search. | Any other key to continue search.");
                 switch (Console.ReadLine())
                 {
                     case "1":
@@ -220,15 +237,15 @@ namespace lp2_2019_p1
             choice = Convert.ToInt32(Console.ReadLine());
 
             //ver agora os detalhos do titulo selecionado//
-            Console.WriteLine($"Type: {queryResults[choice].TitleType}" +
-                $"\nName: {queryResults[choice].PrimaryTitle}" +
-                $"\nAdult: {queryResults[choice].ForAdults}" +
-                $"\nStart Year: {queryResults[choice].StartYear}" +
-                $"\nEnd Year: {queryResults[choice].EndYear}");
-            foreach (string genre in queryResults[choice].Genres)
+            Console.WriteLine($"Type: {queryResults[choice].RTitleType}" +
+                $"\nName: {queryResults[choice].RPrimaryTitle}" +
+                $"\nAdult: {queryResults[choice].RForAdults}" +
+                $"\nStart Year: {queryResults[choice].RStartYear}" +
+                $"\nEnd Year: {queryResults[choice].REndYear?.ToString() ?? "Unknown." }");
+            foreach (string genre in queryResults[choice].RGenres)
                 Console.WriteLine($"\nGenres: {genre} /");
 
-            Console.WriteLine("Press any key to exit...\n");
+            Console.WriteLine("Press any key to return to listing...\n");
 
             // Exit when a key is pressed. Phase 3 implementation goes here.
             Console.ReadKey(true);

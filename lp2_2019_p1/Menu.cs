@@ -77,6 +77,7 @@ namespace lp2_2019_p1
             searcher.AdultsInputFilter();
             searcher.StartYearInputFilter();
             searcher.EndYearInputFilter();
+            searcher.RatingsInputFilter();
             searcher.GenresInputFilter();
         }
         private void OptionFilter()
