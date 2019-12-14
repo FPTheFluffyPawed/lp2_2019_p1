@@ -15,15 +15,15 @@ namespace lp2_2019_p1
         StructTitle[] queryResults;
 
         string searchType, searchPrimaryTitle, searchForAdults,
-            searchStartYear, searchEndYear;
+            searchStartYear, searchEndYear, searchRatings;
         string[] searchGenres;
 
-        private FileManager titles = new FileManager();
+        private FileManager database = new FileManager();
 
         public string TypeInputFilter()
         {
             Console.WriteLine("From the list of types, choose one.");
-            foreach (string type in titles.AllTypes)
+            foreach (string type in database.AllTypes)
                 Console.Write($"{type} ");
             Console.WriteLine("\nWrite the type you want to search (or not).");
             string input = Console.ReadLine();
@@ -67,7 +67,7 @@ namespace lp2_2019_p1
         public string[] GenresInputFilter()
         {
             Console.WriteLine("Write up to 3 genres, according to the list.");
-            foreach (string genre in titles.AllGenres)
+            foreach (string genre in database.AllGenres)
                 Console.Write($"{genre} ");
             Console.WriteLine("\nThis is case-sensitive, so please type your" +
                 " three genres exactly like the list!");
@@ -87,10 +87,18 @@ namespace lp2_2019_p1
             return searchGenres;
         }
 
+        public string RatingsInputFilter()
+        {
+            Console.WriteLine("Between 0 to 10, choose a number.");
+            string input = Console.ReadLine();
+            searchRatings = input;
+            return searchRatings;
+        }
+
         public void Filter()
         {
             queryResults =
-                (from title in titles.Titles
+                 (from title in database.Titles
                  where ContainString(title.TitleType, searchType)
                  where ContainString(title.PrimaryTitle, searchPrimaryTitle)
                  where ContainString(title.ForAdults.ToString(), searchForAdults)
@@ -99,7 +107,7 @@ namespace lp2_2019_p1
                  where (searchGenres == null ||
                  !searchGenres.Except(title.Genres).Any())
                  select title)
-                .ToArray();
+                 .ToArray();
 
             // Order all our results and assign it to our queryResult.
             queryResults = OrderByResultsBy(queryResults);
@@ -153,12 +161,13 @@ namespace lp2_2019_p1
                     // Usar para melhorar a forma como mostramos os géneros
                     bool firstGenre = true;
 
-                    // Obter titulo atual
+                    // Get the current title.
                     StructTitle title = queryResults[i];
 
-                    // Mostrar informação sobre o título
+                    // Show information about each title.
                     Console.Write("\t* ");
                     Console.Write("{0} - ",i+1);
+                    Console.Write("R: {0} - ", queryResults[i].);
                     Console.Write($"\"{title.PrimaryTitle}\" ");
                     Console.Write($"({title.StartYear?.ToString() ?? "unknown year"}): ");
                     Console.Write($"For adults: {title.ForAdults.ToString()} ");
