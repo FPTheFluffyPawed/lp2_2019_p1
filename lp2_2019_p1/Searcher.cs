@@ -182,6 +182,7 @@ namespace lp2_2019_p1
                     // Show information about each title.
                     Console.Write("\t* ");
                     Console.Write("{0} - ",i+1);
+
                     Console.Write("R: {0} - ", queryResults[i].RRatingsAverage);
                     Console.Write($"\"{queryResults[i].RPrimaryTitle}\" ");
                     Console.Write($"({queryResults[i].RStartYear?.ToString() ?? "unknown year"}): ");
