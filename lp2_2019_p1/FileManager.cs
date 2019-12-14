@@ -11,10 +11,15 @@ namespace lp2_2019_p1
     {
         private const string appName = "MyIMDBSearcher";
         private const string fileTitleBasics = "title.basics.tsv.gz";
-        private string folderWithFiles, fileTitleBasicsFull;
+        private const string fileRatingsBasics = "title.ratings.tsv.gz";
+        private string folderWithFiles, fileTitleBasicsFull, 
+            fileRatingsBasicsFull;
 
-        // Our Database complete with all of our information.
+        // Our Database for Titles complete with all of our information.
         public ICollection<StructTitle> Titles { get; private set; }
+
+        // Our Database for Ratings complete with all of our information.
+        public ICollection<StructRatings> Ratings { get; private set; }
 
         // Our set to contain all possible genres.
         public ISet<string> AllGenres { get; private set; }
@@ -23,11 +28,10 @@ namespace lp2_2019_p1
         public ISet<string> AllTypes { get; private set; }
 
         private int numTitles = 0;
+        private int numRatings = 0;
 
         public FileManager()
         {
-            // Initialize set so we don't have repeated genres.
-
             // Set the paths.
             folderWithFiles = Path.Combine(
                 Environment.GetFolderPath(
@@ -36,7 +40,10 @@ namespace lp2_2019_p1
             fileTitleBasicsFull = Path.Combine(
                 folderWithFiles, fileTitleBasics);
 
-            // Count the lines in the file.
+            fileRatingsBasicsFull = Path.Combine(
+                folderWithFiles, fileRatingsBasics);
+
+            // Count the lines in the Titles file.
             OpenTitlesFile((line) => numTitles++);
 
             // Create our list with a maximum.
@@ -48,8 +55,17 @@ namespace lp2_2019_p1
             // Create our set for types.
             AllTypes = new HashSet<string>();
 
-            // Read the information from file and add it to our collection.
-            OpenTitlesFile(AddInformationToList);
+            // Read the information from Titles and add it to our collection.
+            OpenTitlesFile(AddInformationToTitles);
+
+            // Count the lines in the Ratings file.
+            OpenRatingsFile((line) => numRatings++);
+
+            // Create our Ratings list with a maximum.
+            Ratings = new List<StructRatings>(numRatings);
+
+            // Read the information from Ratings and add it to our collection.
+            OpenRatingsFile(AddInformationToRatings);
         }
 
         private void OpenTitlesFile(Action<string> actionForEachLine)
@@ -79,7 +95,30 @@ namespace lp2_2019_p1
             }
         }
 
-        private void AddInformationToList(string line)
+        private void OpenRatingsFile(Action<string> actionForEachLine)
+        {
+            using (FileStream fs = new FileStream(
+                fileRatingsBasicsFull, FileMode.Open, FileAccess.Read))
+            {
+                using (GZipStream gzs = new GZipStream(
+                    fs, CompressionMode.Decompress))
+                {
+                    using (StreamReader sr = new StreamReader(gzs))
+                    {
+                        string line;
+
+                        sr.ReadLine();
+
+                        while((line = sr.ReadLine()) != null)
+                        {
+                            actionForEachLine.Invoke(line);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void AddInformationToTitles(string line)
         {
             /*
              * 0 = identifier, 1 = type, 2 = primaryTitle, 3 = originalTitle
@@ -148,6 +187,18 @@ namespace lp2_2019_p1
                 titleStartYear, titleEndYear, cleanTitleGenres.ToArray());
 
             Titles.Add(t);
+        }
+
+        private void AddInformationToRatings(string line)
+        {
+            string[] fields = line.Split("\t");
+            string titleIdentifier = fields[0];
+            string averageRating = fields[1];
+
+            StructRatings r = new StructRatings(
+                titleIdentifier, averageRating);
+
+            Ratings.Add(r);
         }
     }
 }
