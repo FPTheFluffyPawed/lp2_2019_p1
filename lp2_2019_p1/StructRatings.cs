@@ -10,9 +10,9 @@ namespace lp2_2019_p1
         public string RatingsIdentifier { get; }
 
         // Rating given to the title.
-        public string RatingsAverage { get; }
+        public float RatingsAverage { get; }
 
-        public StructRatings(string ratingsIdentifier, string ratingsAverage)
+        public StructRatings(string ratingsIdentifier, float ratingsAverage)
         {
             RatingsIdentifier = ratingsIdentifier;
             RatingsAverage = ratingsAverage;

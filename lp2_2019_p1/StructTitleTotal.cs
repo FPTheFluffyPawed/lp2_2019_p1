@@ -24,7 +24,7 @@ namespace lp2_2019_p1
         // The end year (if it exists).
         public short? REndYear { get; set; }
 
-        public string RRatingsAverage { get; set; }
+        public float RRatingsAverage { get; set; }
 
         // Title's genres.
         public IEnumerable<string> RGenres { get; set; }
@@ -32,7 +32,7 @@ namespace lp2_2019_p1
         public StructTitleTotal(
             string titleIdentifier_, string titleType_, string primaryTitle_,
             bool forAdults_, short? startYear_, short? endYear_,
-            string ratingsAverage_, IEnumerable<string> genres_)
+            float ratingsAverage_, IEnumerable<string> genres_)
         {
             RTitleIdentifier = titleIdentifier_;
             RTitleType = titleType_;
