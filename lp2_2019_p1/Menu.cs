@@ -20,7 +20,7 @@ namespace lp2_2019_p1
 
         private void Execute()
         {
-            menus.Add("menu1", "1 - Choose by title \n2 - Choose by people \nb - Back");
+            menus.Add("menu1", "1 - Choose by title \n2 - Choose by people");
 
             // titles path (decision 1)
             menus.Add("menu2", "1 - Filter type \n2 - Show results \nb - Back");
@@ -46,7 +46,8 @@ namespace lp2_2019_p1
                             currentMenu = "menu2";
                         }
                         else if (currentMenu == "menu2") SearchPerTitle();
-                        break; 
+                        break;
+                    /*
                     case "2":
                         if (currentMenu == "menu1")
                         {
@@ -56,11 +57,9 @@ namespace lp2_2019_p1
                         {
                             searcher.Filter();
                             searcher.ShowResults();
-
-                            historic.Add(currentMenu);
-                            currentMenu = "menu3";
                         }
                         break;
+                    */
                     case "b":
                         currentMenu = historic[historic.Count - 1];
                         historic.RemoveAt(historic.Count - 1);
