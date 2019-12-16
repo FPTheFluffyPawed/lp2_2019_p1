@@ -7,70 +7,38 @@ namespace lp2_2019_p1
     public struct StructTitle
     {
         // Unique identifier.
-        public string TitleIdentifier// { get; }
-            => Line.Split("\t")[0];
+        public string TitleIdentifier { get; }
 
         // Type of title.
-        public string TitleType //{ get; }
-            => Line.Split("\t")[1];
+        public string TitleType { get; }
 
         // Primary name of the title.
-        public string PrimaryTitle //{ get; }
-            => Line.Split("\t")[2];
+        public string PrimaryTitle { get; }
 
         // If its for adults or not.
-        public bool ForAdults //{ get; }
-            => bool.Parse(Line.Split("\t")[3]);
+        public bool ForAdults { get; }
 
         // The start year (if it exists).
-        public short? StartYear //{ get; }
-        {
-            get
-            {
-
-                if (short.TryParse(Line.Split("\t")[4], out short value))
-                    return value;
-
-                return null;
-            }
-        }
+        public short? StartYear { get; }
 
         // The end year (if it exists).
-        public short? EndYear
-        {
-            get
-            {
-
-                if (short.TryParse(Line.Split("\t")[5], out short value))
-                    return value;
-
-                return null;
-            }
-        }
+        public short? EndYear { get; }
 
         // Title's genres.
-        public IEnumerable<string> Genres //{ get; }
-            => Line.Split("\t")[6].Split(",");
-
-        // Line to assign values, and for dividing usage.
-        private string Line { get; }
+        public IEnumerable<string> Genres { get; }
 
         public StructTitle(
             string titleIdentifier, string titleType, string primaryTitle,
             bool forAdults, short? startYear, short? endYear,
             IEnumerable<string> genres)
         {
-            Line = string.Join('\t',
-                new string[]
-                {
-                    titleIdentifier,
-                    titleType,
-                    primaryTitle,
-                    forAdults.ToString(),
-                    startYear?.ToString(),
-                    endYear?.ToString(),
-                    string.Join(',', genres)
-                });
+            TitleIdentifier = titleIdentifier;
+            TitleType = titleType;
+            PrimaryTitle = primaryTitle;
+            ForAdults = forAdults;
+            StartYear = startYear;
+            EndYear = endYear;
+            Genres = genres;
         }
     }
 }
