@@ -193,7 +193,7 @@ namespace lp2_2019_p1
         {
             string[] fields = line.Split("\t");
             string titleIdentifier = fields[0];
-            float averageRating = float.Parse(fields[1].Replace('.', ','));
+            float averageRating = float.Parse(fields[1]);
 
             StructRatings r = new StructRatings(
                 titleIdentifier, averageRating);
