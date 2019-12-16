@@ -24,6 +24,7 @@ namespace lp2_2019_p1
         // The end year (if it exists).
         public short? REndYear { get; set; }
 
+        // The average rating.
         public float RRatingsAverage { get; set; }
 
         // Title's genres.
