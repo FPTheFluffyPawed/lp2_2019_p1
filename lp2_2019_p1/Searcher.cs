@@ -106,13 +106,13 @@ namespace lp2_2019_p1
                  (from title in database.Titles
                   join ratings in database.Ratings on title.TitleIdentifier equals ratings.RatingsIdentifier into titleWithRatings
                   from tR in titleWithRatings
-                 where ContainString(title.TitleType, searchType)
-                 where ContainString(title.PrimaryTitle, searchPrimaryTitle)
-                 where ContainString(title.ForAdults.ToString(), searchForAdults)
-                 where ContainString(title.StartYear.ToString(), searchStartYear)
-                 where ContainString(title.EndYear.ToString(), searchEndYear)
-                 where tR.RatingsAverage >= float.Parse(searchRatings)
-                 where (searchGenres == null ||
+                 where (searchType == null || title.TitleType.Contains(searchType)) &&
+                 ContainString(title.PrimaryTitle, searchPrimaryTitle) &&
+                 ContainString(title.ForAdults.ToString(), searchForAdults) &&
+                 ContainString(title.StartYear.ToString(), searchStartYear) &&
+                 ContainString(title.EndYear.ToString(), searchEndYear) &&
+                 tR.RatingsAverage >= float.Parse(searchRatings) &&
+                 (searchGenres == null ||
                  !searchGenres.Except(title.Genres).Any())
                   select new StructTitleTotal
                   {
