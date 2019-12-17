@@ -6,13 +6,19 @@ namespace lp2_2019_p1
 {
     class Menu
     {
+        // Instance Variables
+        // The dictionary is used to swap between menus
         Dictionary<string, string> menus = new Dictionary<string, string>();
+        // The List is used to save the current menu the user's in so we can go
+        // back between the menus
         List<string> historic = new List<string>();
+        Searcher searcher = new Searcher();
+
+        // Variables
         string currentMenu;
         bool createdFilter = false;
 
-        Searcher searcher = new Searcher();
-      
+        // Constructor Menu
         public Menu()
         {
             Console.WriteLine("Loading");
