@@ -34,43 +34,57 @@ classificação.
 
 ### Estrutura do Programa
 
-* O nosso programa é composto por 7 classes: Searcher, Menu, Program, 
-  FileManager, StructTitle, StructRatings, StructTitleTotal.
-* A classe Searcher trata da pesquisa e filtragem da lista criada dentro do 
-  projeto, utilizando o que foi inserido pelo utilizador para dentro da classe 
-  Searcher. Aqui é onde ocorre o query de LINQ para fazer a filtragem e 
+* O nosso programa é composto por 7 classes: `Searcher.cs`, `Menu.cs`,
+  `Program.cs`, `FileManager.cs`, `StructTitle`, `StructRatings.cs`,
+  `StructTitleTotal.cs`.
+
+* A classe `Searcher.cs` trata da pesquisa e filtragem da lista criada dentro do
+  projeto, utilizando o que foi inserido pelo utilizador para dentro da classe
+  `Searcher.cs`. Aqui é onde ocorre o query de LINQ para fazer a filtragem e
   ordenação da lista.
-* A classe Menu trata da representação e navegação das opções para o utilizador, 
-  chamando métodos de Searcher.
-* O Program apenas chama o Menu.
-* FileManager é responsável por abrir, ler e meter a informação lida dos 
-  ficheiros dentro dos nossos dicionários para Titles e Ratings.
-* StructTitle, StructRatings e StructTitleTotal são structs utilizadas para 
-  criar as nossas bases de dados, preenchendo os construtores para adicionar aos 
-  dicionários compostos por estes structs.
-* Em geral, utilizamos a nossa estrutura de código pela ordem, Program para 
-  Menu, Menu para Searcher, e Searcher para FileManager. Classes de dados como 
-  StructTitle e StructRatings são chamadas no FileManager, enquanto 
-  StructTitleTotal é utilizada no Searcher para criar a nossa base de dados 
-  filtrada para mostrar depois.
-* Queríamos inicialmente ter todos os nossos dados em uma struct só, adicionado
-  values como a classificação e episódios mais tarde através de métodos, mas 
-  como foi indicado mais tarde que era suposto usar LINQ’s join, e assim 
-  acabamos por utilizar várias structs para juntar as nossas bases de dados.
+
+* A classe `Menu.cs` trata da representação e navegação das opções para o
+  utilizador, chamando métodos de `Searcher.cs`.
+
+* O `Program.cs` apenas chama o `Menu.cs`.
+
+* `FileManager.cs` é responsável por abrir, ler e meter a informação lida dos
+  ficheiros dentro dos nossos dicionários para *Titles* e *Ratings*.
+
+* `StructTitle.cs`, `StructRatings.cs` e `StructTitleTotal.cs` são *structs*
+  utilizadas para criar as nossas bases de dados, preenchendo os construtores
+  para adicionar aos dicionários compostos por estes *structs*.
+
+* Em geral, utilizamos a nossa estrutura de código pela ordem, `Program.cs` para
+  `Menu.cs`, `Menu.cs` para `Searcher.cs`, e `Searcher.cs` para
+  `FileManager.cs`. Classes de dados como `StructTitle.cs` e `StructRatings.cs`
+  são chamadas no `FileManager.cs`, enquanto `StructTitleTotal.cs` é utilizada
+  no `Searcher.cs` para criar a nossa base de dados filtrada para mostrar
+  depois.
+
+* Para a otimização, convertemos as `List` para `Dictionary`, prevendo que
+  fossem adicionados entradas duplicadas as nossas bases de dados, e assim
+  poupando mémoria no nosso programa.
+
+* Queríamos inicialmente ter todos os nossos dados em uma *struct* só,
+  adicionadovalues como a classificação e episódios mais tarde através de
+  métodos, mas como foi indicado mais tarde que era suposto usar LINQ’s `join`,
+  acabamos por utilizar várias *structs* para juntar as nossas bases de dados.
 
 ### Diagrama UML
 
 ![<Diagrama UML>](images/Uml.png)
 
 ### Conclusões
-* Em conclusão com este projeto, aplicar o nosso conhecimento de LINQ e de como 
-  funciona a leitura de ficheiros, delegates e Dictionaries, vemos que a 
-  colaboração de nós os 3 chegou a um máximo da fase 2, e mesmo assim podemos 
-  aprender com este projeto para aplicar em outros. Queríamos chegar mais longe, 
-  mas infelizmente não conseguimos pois nós tivemos que distribuir o nosso foco 
+
+* Em conclusão com este projeto, aplicar o nosso conhecimento de LINQ e de como
+  funciona a leitura de ficheiros, delegates e Dictionaries, vemos que a
+  colaboração de nós os 3 chegou a um máximo da fase 2, e mesmo assim podemos
+  aprender com este projeto para aplicar em outros. Queríamos chegar mais longe,
+  mas infelizmente não conseguimos pois nós tivemos que distribuir o nosso foco
   para projetos diferentes que caem em datas próximas.
   
 ### Referências
 
-* Utilizamos o código que o professor disponibilizou como referência para as 
-  classes FileManager e Searcher.
+* Utilizamos o código que o professor disponibilizou como referência para as
+  classes `FileManager.cs` e `Searcher.cs`.
