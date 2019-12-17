@@ -8,16 +8,21 @@ namespace lp2_2019_p1
 {
     class Searcher
     {
-        
+        // Number of titles shown on console.
         int numTitlesShown = 0;
         int numTitlesToShowOnScreen = 30;
 
+        // Our array with filtred information.
         private StructTitleTotal[] queryResults;
 
+        // Our containers of the informations made by the user.
         string searchType, searchPrimaryTitle, searchForAdults,
             searchStartYear, searchEndYear, searchRatings;
+
+        // Container of the genre information mad by the user.
         string[] searchGenres;
 
+        // Instatiate the data extracted from the files.
         private FileManager database = new FileManager();
 
         public string TypeInputFilter()
