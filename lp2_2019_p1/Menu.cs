@@ -6,13 +6,14 @@ namespace lp2_2019_p1
 {
     class Menu
     {
-        // Instance Variables.
-
-        // The dictionary is used to swap between menus.
+        // The Dictionary is used to swap between menus.
         Dictionary<string, string> menus = new Dictionary<string, string>();
-        // The List is used to save the current menu the user's in so we can go
-        // back between the menus.
+
+        // The List is used to save the current menu the user is in so we can
+        // go back between the menus.
         List<string> historic = new List<string>();
+
+        // Call our Searcher.
         Searcher searcher = new Searcher();
 
         // Variables.
@@ -20,11 +21,11 @@ namespace lp2_2019_p1
         bool createdFilter = false;
 
         /// <summary>
-        /// Constructor Menu.
+        /// Constructor to call our menu.
         /// </summary>
         public Menu()
         {
-            Console.WriteLine("Loading");
+            Console.WriteLine("Welcome to the IMDB searcher!\n");
             Execute();
         }
         /// <summary>
@@ -34,7 +35,7 @@ namespace lp2_2019_p1
         {
             menus.Add("menu1", "1 - Choose by title \nb - Exit program");
 
-            // titles path (decision 1).
+            // Path for the first decision (Titles).
             menus.Add("menu2", "1 - Filter type \n2 - Show results \nb - Back");
             menus.Add("menu3", "1 -  \nb - Back");
             menus.Add("menu4", "b - Back");

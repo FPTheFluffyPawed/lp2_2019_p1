@@ -12,24 +12,23 @@ namespace lp2_2019_p1
         int numTitlesShown = 0;
         int numTitlesToShowOnScreen = 30;
 
-        // Our array with filtred information.
+        // Our array with filtered information.
         private StructTitleTotal[] queryResults;
 
-        // Our containers of the informations made by the user.
+        // Our containers of the information set by the user.
         string searchType, searchPrimaryTitle, searchForAdults,
             searchStartYear, searchEndYear, searchRatings;
 
-        // Container of the genre information mad by the user.
+        // Our container to be inserted the input by the user.
         string[] searchGenres;
 
         // Instatiate the data extracted from the files.
         private FileManager database = new FileManager();
 
         /// <summary>
-        /// This method asks the user witch type 
-        /// he wants and saves it.
+        /// This method asks the user which type he wants, and saves it.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Return our input.</returns>
         public string TypeInputFilter()
         {
             Console.WriteLine("From the list of types, choose one.");
@@ -42,10 +41,9 @@ namespace lp2_2019_p1
         }
 
         /// <summary>
-        /// This method asks the user witch name 
-        /// he wants and saves it.
+        /// This method asks the user which name he wants, and saves it.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Return our input.</returns>
         public string NameInputFilter()
         {
             Console.WriteLine("'Name' to search for: ");
@@ -55,10 +53,10 @@ namespace lp2_2019_p1
         }
 
         /// <summary>
-        /// This method asks the user if the type is for adults
-        /// or not and saves it.
+        /// This method asks the user if he wants to find titles for adults
+        /// or not.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Return our input.</returns>
         public string AdultsInputFilter()
         {
             Console.WriteLine("For adults? [0] for False, [1] for True.");
@@ -68,10 +66,9 @@ namespace lp2_2019_p1
         }
 
         /// <summary>
-        /// This method asks the user witch year started 
-        /// the type he wants and saves it.
+        /// This method asks the user for which Start Year.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Return our input.</returns>
         public string StartYearInputFilter()
         {
             Console.WriteLine("Start year of the title: ");
@@ -79,11 +76,11 @@ namespace lp2_2019_p1
             searchStartYear = input;
             return searchStartYear;
         }
+
         /// <summary>
-        /// This method asks the user witch year ended 
-        /// the series he wants and saves it.
+        /// This method asks the user for which End Year.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Return our input.</returns>
         public string EndYearInputFilter()
         {
             Console.WriteLine("End year of the title: ");
@@ -93,8 +90,7 @@ namespace lp2_2019_p1
         }
 
         /// <summary>
-        /// This method asks the user to choose up to 3 genres
-        /// and saves them.
+        /// This method asks the user to choose up to 3 genres and saves them.
         /// </summary>
         /// <returns></returns>
         public string[] GenresInputFilter()
@@ -121,10 +117,9 @@ namespace lp2_2019_p1
         }
 
         /// <summary>
-        /// This method asks the user to put the type
-        /// rating he wants and saves it.
+        /// This method asks the user for the rating.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Return our input.</returns>
         public string RatingsInputFilter()
         {
             Console.WriteLine("Between 0 to 10, choose a number.");
@@ -139,37 +134,47 @@ namespace lp2_2019_p1
         }
 
         /// <summary>
-        /// This method creates a filtred array with all 
-        /// the information saved from the user.
+        /// This method creates a filtered array with all 
+        /// the information saved from the user. Our main query that checks
+        /// everything inserted by our user and compares it.
         /// </summary>
         public void Filter()
         {
+            // Do a try to see if we catch an error.
             try
             {
                 queryResults =
-                        (from title in database.Titles
-                        join ratings in database.Ratings on title.Value.TitleIdentifier equals ratings.Value.RatingsIdentifier into titleWithRatings
-                        from tR in titleWithRatings
-                        where (searchType == null || title.Value.TitleType.Contains(searchType)) &&
-                    ContainString(title.Value.PrimaryTitle, searchPrimaryTitle) &&
-                    ContainString(title.Value.ForAdults.ToString(), searchForAdults) &&
-                    ContainString(title.Value.StartYear.ToString(), searchStartYear) &&
-                    ContainString(title.Value.EndYear.ToString(), searchEndYear) &&
-                    tR.Value.RatingsAverage >= float.Parse(searchRatings) &&
-                    (searchGenres == null ||
-                    !searchGenres.Except(title.Value.Genres).Any())
-                        select new StructTitleTotal
-                        {
-                            RTitleIdentifier = title.Value.TitleIdentifier,
-                            RTitleType = title.Value.TitleType,
-                            RPrimaryTitle = title.Value.PrimaryTitle,
-                            RForAdults = title.Value.ForAdults,
-                            RStartYear = title.Value.StartYear,
-                            REndYear = title.Value.EndYear,
-                            RRatingsAverage = tR.Value.RatingsAverage,
-                            RGenres = title.Value.Genres
-                        })
-                        .ToArray();
+                (from title in database.Titles
+                join ratings in database.Ratings
+                on title.Value.TitleIdentifier
+                equals ratings.Value.RatingsIdentifier
+                into titleWithRatings
+                from tR in titleWithRatings
+                where (searchType == null ||
+                title.Value.TitleType.Contains(searchType)) &&
+                ContainString(title.Value.PrimaryTitle,
+                searchPrimaryTitle) &&
+                ContainString(title.Value.ForAdults.ToString(),
+                searchForAdults) &&
+                ContainString(title.Value.StartYear.ToString(),
+                searchStartYear) &&
+                ContainString(title.Value.EndYear.ToString(),
+                searchEndYear) &&
+                tR.Value.RatingsAverage >= float.Parse(searchRatings) &&
+                (searchGenres == null ||
+                !searchGenres.Except(title.Value.Genres).Any())
+                select new StructTitleTotal
+                {
+                    RTitleIdentifier = title.Value.TitleIdentifier,
+                    RTitleType = title.Value.TitleType,
+                    RPrimaryTitle = title.Value.PrimaryTitle,
+                    RForAdults = title.Value.ForAdults,
+                    RStartYear = title.Value.StartYear,
+                    REndYear = title.Value.EndYear,
+                    RRatingsAverage = tR.Value.RatingsAverage,
+                    RGenres = title.Value.Genres
+                })
+                .ToArray();
 
                 // Order all our results and assign it to our queryResult.
                 queryResults = OrderByResultsBy(queryResults);
@@ -183,10 +188,10 @@ namespace lp2_2019_p1
         }
 
         /// <summary>
-        /// This method asks the user in witch order
+        /// This method asks the user in which order
         /// he wants to be shown of the filtred list.
         /// </summary>
-        /// <param name="titles"></param>
+        /// <param name="titles">The filtered array.</param>
         /// <returns></returns>
         private StructTitleTotal[] OrderByResultsBy(StructTitleTotal[] titles)
         {
@@ -219,7 +224,7 @@ namespace lp2_2019_p1
         }
 
         /// <summary>
-        /// This method shows to the user the filtred array.
+        /// This method shows to the user the filtered array.
         /// </summary>
         public void ShowResults()
         {
@@ -238,20 +243,16 @@ namespace lp2_2019_p1
                         && i < queryResults.Length;
                     i++)
                 {
-                    //Used to upgrate the way we show the genres.
+                    // Used to order our genres on display.
                     bool firstGenre = true;
-
-                    // Get the current title.
-                    // StructTitleTotal title = queryResults[i];
 
                     // Show information about each title.
                     Console.Write("\t* ");
                     Console.Write("{0} - ", i);
 
-                    Console.Write("R: {0} - ", queryResults[i].RRatingsAverage);
+                    // Show our three primary values.
                     Console.Write($"\"{queryResults[i].RPrimaryTitle}\" ");
                     Console.Write($"({queryResults[i].RStartYear?.ToString() ?? "N/A"}): ");
-                    Console.Write($"A: {queryResults[i].RForAdults.ToString()} ");
                     foreach (string genre in queryResults[i].RGenres)
                     {
                         if (!firstGenre) Console.Write("/ ");
@@ -261,7 +262,7 @@ namespace lp2_2019_p1
                     Console.WriteLine();
                 }
 
-
+                // Our three-choice menu based on the user's input.
                 Console.WriteLine("Choose your option:");
                 Console.WriteLine("1 - Choose your title. | " +
                     "2 - Exit the search. | Any other key to continue search.");
@@ -283,6 +284,9 @@ namespace lp2_2019_p1
             }
             // Clear the filter when we're done.
             queryResults = null;
+
+            // Call the GC to keep our memory low, instead of waiting for it
+            // to call itself.
             GC.Collect();
             GC.WaitForPendingFinalizers();
         }
@@ -291,9 +295,9 @@ namespace lp2_2019_p1
         /// This method verifies if the information 
         /// put by the user is null.
         /// </summary>
-        /// <param name="property"></param>
-        /// <param name="varstring"></param>
-        /// <returns></returns>
+        /// <param name="property">Property to compare.</param>
+        /// <param name="varstring">String to check for null.</param>
+        /// <returns>True or false.</returns>
         private bool ContainString(string property, string? varstring)
         {
             bool b;
@@ -305,6 +309,7 @@ namespace lp2_2019_p1
 
             return b;
         }
+
         /// <summary>
         /// This method is to show the detailed information
         /// of the selected title.
@@ -315,21 +320,20 @@ namespace lp2_2019_p1
             Console.Write("Type the number of your title:");
             choice = Convert.ToInt32(Console.ReadLine());
 
-            //Showing the detailed info of the selectd title//
-            Console.WriteLine($"Type: {queryResults[choice].RTitleType}" +
+            // Show the detailed information of the title.
+            Console.WriteLine(
+                $"\nType: {queryResults[choice].RTitleType}" +
                 $"\nName: {queryResults[choice].RPrimaryTitle}" +
+                $"\nRating: {queryResults[choice].RRatingsAverage}" +
                 $"\nAdult: {queryResults[choice].RForAdults}" +
                 $"\nStart Year: {queryResults[choice].RStartYear}" +
                 $"\nEnd Year: {queryResults[choice].REndYear?.ToString() ?? "N/A" }");
             foreach (string genre in queryResults[choice].RGenres)
                 Console.WriteLine($"\nGenres: {genre} /");
 
+            // Exit when a key is pressed.
             Console.WriteLine("Press any key to return to listing...\n");
-
-            // Exit when a key is pressed. Phase 3 implementation goes here.
             Console.ReadKey(true);
-            //Detail(queryResults[choice]);
-            
         }
     }
         
