@@ -19,13 +19,17 @@ namespace lp2_2019_p1
         string currentMenu;
         bool createdFilter = false;
 
-        // Constructor Menu.
+        /// <summary>
+        /// Constructor Menu.
+        /// </summary>
         public Menu()
         {
             Console.WriteLine("Loading");
             Execute();
         }
-
+        /// <summary>
+        /// This method executes the  menu.
+        /// </summary>
         private void Execute()
         {
             menus.Add("menu1", "1 - Choose by title");
@@ -79,6 +83,12 @@ namespace lp2_2019_p1
                 }
             }
         }
+
+        /// <summary>
+        /// This method asks to the user 
+        /// to put the information asked
+        /// and saves it in the Searcher class.
+        /// </summary>
         private void SearchPerTitle()
         {
             searcher.TypeInputFilter();
@@ -90,12 +100,6 @@ namespace lp2_2019_p1
             searcher.GenresInputFilter();
 
             createdFilter = true;
-        }
-        private void SearchPerPerson()
-        {
-            Console.WriteLine("Please type the name of the person you're " +
-                "looking for");
-            string person = Console.ReadLine();
         }
     }
 }
