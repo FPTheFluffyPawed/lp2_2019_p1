@@ -4,6 +4,10 @@ using System.Text;
 
 namespace lp2_2019_p1
 {
+    /// <summary>
+    /// Struct class used to store our ratings information obtained from
+    /// the 'titles.ratings' file.
+    /// </summary>
     public struct StructRatings
     {
         // Unique identifier.
