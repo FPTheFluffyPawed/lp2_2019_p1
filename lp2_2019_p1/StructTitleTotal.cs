@@ -4,6 +4,9 @@ using System.Text;
 
 namespace lp2_2019_p1
 {
+    /// <summary>
+    /// Struct class used to combine our data from Ratings and Titles.
+    /// </summary>
     public struct StructTitleTotal
     {
         // Unique identifier.
