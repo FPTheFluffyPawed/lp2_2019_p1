@@ -32,7 +32,7 @@ namespace lp2_2019_p1
         /// </summary>
         private void Execute()
         {
-            menus.Add("menu1", "1 - Choose by title");
+            menus.Add("menu1", "1 - Choose by title \nb - Exit program");
 
             // titles path (decision 1).
             menus.Add("menu2", "1 - Filter type \n2 - Show results \nb - Back");
@@ -56,10 +56,6 @@ namespace lp2_2019_p1
                         break;
                     
                     case "2":
-                        if (currentMenu == "menu1")
-                        {
-
-                        }
                         if (currentMenu == "menu2")
                         {
                             if (createdFilter)
@@ -74,6 +70,10 @@ namespace lp2_2019_p1
                         break;
                     
                     case "b":
+                        if (currentMenu == "menu1")
+                        {
+                            System.Environment.Exit(1);
+                        }
                         currentMenu = historic[historic.Count - 1];
                         historic.RemoveAt(historic.Count - 1);
                         break;
