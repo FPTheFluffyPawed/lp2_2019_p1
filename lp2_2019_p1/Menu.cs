@@ -9,6 +9,7 @@ namespace lp2_2019_p1
         Dictionary<string, string> menus = new Dictionary<string, string>();
         List<string> historic = new List<string>();
         string currentMenu;
+        bool createdFilter = false;
 
         Searcher searcher = new Searcher();
       
@@ -55,8 +56,14 @@ namespace lp2_2019_p1
                         }
                         if (currentMenu == "menu2")
                         {
-                            searcher.Filter();
-                            searcher.ShowResults();
+                            if (createdFilter)
+                            {
+                                searcher.Filter();
+                                searcher.ShowResults();
+                            }
+                            else
+                                Console.WriteLine("No filter applied yet!");
+
                         }
                         break;
                     
@@ -79,6 +86,8 @@ namespace lp2_2019_p1
             searcher.EndYearInputFilter();
             searcher.RatingsInputFilter();
             searcher.GenresInputFilter();
+
+            createdFilter = true;
         }
         private void OptionFilter()
         {

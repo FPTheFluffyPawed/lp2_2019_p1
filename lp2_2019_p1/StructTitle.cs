@@ -4,6 +4,10 @@ using System.Text;
 
 namespace lp2_2019_p1
 {
+    /// <summary>
+    /// Struct class used to store our title information obtained from
+    /// the 'titles.basics' file.
+    /// </summary>
     public struct StructTitle
     {
         // Unique identifier.

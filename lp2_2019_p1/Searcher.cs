@@ -10,7 +10,7 @@ namespace lp2_2019_p1
     {
         
         int numTitlesShown = 0;
-        int numTitlesToShowOnScreen = 10;
+        int numTitlesToShowOnScreen = 30;
 
         private StructTitleTotal[] queryResults;
 
@@ -102,33 +102,42 @@ namespace lp2_2019_p1
 
         public void Filter()
         {
-            queryResults =
-                 (from title in database.Titles
-                  join ratings in database.Ratings on title.TitleIdentifier equals ratings.RatingsIdentifier into titleWithRatings
-                  from tR in titleWithRatings
-                 where (searchType == null || title.TitleType.Contains(searchType)) &&
-                 ContainString(title.PrimaryTitle, searchPrimaryTitle) &&
-                 ContainString(title.ForAdults.ToString(), searchForAdults) &&
-                 ContainString(title.StartYear.ToString(), searchStartYear) &&
-                 ContainString(title.EndYear.ToString(), searchEndYear) &&
-                 tR.RatingsAverage >= float.Parse(searchRatings) &&
-                 (searchGenres == null ||
-                 !searchGenres.Except(title.Genres).Any())
-                  select new StructTitleTotal
-                  {
-                      RTitleIdentifier = title.TitleIdentifier,
-                      RTitleType = title.TitleType,
-                      RPrimaryTitle = title.PrimaryTitle,
-                      RForAdults = title.ForAdults,
-                      RStartYear = title.StartYear,
-                      REndYear = title.EndYear,
-                      RRatingsAverage = tR.RatingsAverage,
-                      RGenres = title.Genres
-                  })
-                 .ToArray();
+            try
+            {
+                queryResults =
+                        (from title in database.Titles
+                        join ratings in database.Ratings on title.TitleIdentifier equals ratings.RatingsIdentifier into titleWithRatings
+                        from tR in titleWithRatings
+                        where (searchType == null || title.TitleType.Contains(searchType)) &&
+                    ContainString(title.PrimaryTitle, searchPrimaryTitle) &&
+                    ContainString(title.ForAdults.ToString(), searchForAdults) &&
+                    ContainString(title.StartYear.ToString(), searchStartYear) &&
+                    ContainString(title.EndYear.ToString(), searchEndYear) &&
+                    tR.RatingsAverage >= float.Parse(searchRatings) &&
+                    (searchGenres == null ||
+                    !searchGenres.Except(title.Genres).Any())
+                        select new StructTitleTotal
+                        {
+                            RTitleIdentifier = title.TitleIdentifier,
+                            RTitleType = title.TitleType,
+                            RPrimaryTitle = title.PrimaryTitle,
+                            RForAdults = title.ForAdults,
+                            RStartYear = title.StartYear,
+                            REndYear = title.EndYear,
+                            RRatingsAverage = tR.RatingsAverage,
+                            RGenres = title.Genres
+                        })
+                        .ToArray();
 
-            // Order all our results and assign it to our queryResult.
-            queryResults = OrderByResultsBy(queryResults);
+                // Order all our results and assign it to our queryResult.
+                queryResults = OrderByResultsBy(queryResults);
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Oops! You ran into an error. " +
+                    $"{e.Message} Please double-check your inputs" +
+                    $" when searching!");
+            }
         }
 
         private StructTitleTotal[] OrderByResultsBy(StructTitleTotal[] titles)
@@ -166,16 +175,13 @@ namespace lp2_2019_p1
             // Reset back to 0.
             numTitlesShown = 0;
 
-            // Mostrar os títulos, 10 de cada vez
+            // Show the titles, 30 at a time.
             while (numTitlesShown < queryResults.Length)
             {
                 Console.WriteLine(" --- ");
                 Console.WriteLine($"Found {queryResults.Length} titles.");
-                //Console.WriteLine(
-                //    $"\t=> Press key to see next {numTitlesToShowOnScreen} titles...");
-                //Console.ReadKey(true);
 
-                // Mostrar próximos 10
+                // Show the next 30 titles.
                 for (int i = numTitlesShown;
                     i < numTitlesShown + numTitlesToShowOnScreen
                         && i < queryResults.Length;
@@ -189,7 +195,7 @@ namespace lp2_2019_p1
 
                     // Show information about each title.
                     Console.Write("\t* ");
-                    Console.Write("{0} - ",i+1);
+                    Console.Write("{0} - ", i);
 
                     Console.Write("R: {0} - ", queryResults[i].RRatingsAverage);
                     Console.Write($"\"{queryResults[i].RPrimaryTitle}\" ");
@@ -206,7 +212,7 @@ namespace lp2_2019_p1
 
 
                 Console.WriteLine("Choose your option:");
-                Console.WriteLine("1 - Choose your title. |" +
+                Console.WriteLine("1 - Choose your title. | " +
                     "2 - Exit the search. | Any other key to continue search.");
                 switch (Console.ReadLine())
                 {
@@ -221,7 +227,7 @@ namespace lp2_2019_p1
                     default:
                         break;
                 }
-                // Próximos 10
+                // Next 30 titles.
                 numTitlesShown += numTitlesToShowOnScreen;
             }
             // Clear the filter when we're done.
