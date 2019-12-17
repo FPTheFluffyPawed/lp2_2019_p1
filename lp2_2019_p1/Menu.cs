@@ -6,19 +6,20 @@ namespace lp2_2019_p1
 {
     class Menu
     {
-        // Instance Variables
-        // The dictionary is used to swap between menus
+        // Instance Variables.
+
+        // The dictionary is used to swap between menus.
         Dictionary<string, string> menus = new Dictionary<string, string>();
         // The List is used to save the current menu the user's in so we can go
-        // back between the menus
+        // back between the menus.
         List<string> historic = new List<string>();
         Searcher searcher = new Searcher();
 
-        // Variables
+        // Variables.
         string currentMenu;
         bool createdFilter = false;
 
-        // Constructor Menu
+        // Constructor Menu.
         public Menu()
         {
             Console.WriteLine("Loading");
@@ -29,7 +30,7 @@ namespace lp2_2019_p1
         {
             menus.Add("menu1", "1 - Choose by title");
 
-            // titles path (decision 1)
+            // titles path (decision 1).
             menus.Add("menu2", "1 - Filter type \n2 - Show results \nb - Back");
             menus.Add("menu3", "1 -  \nb - Back");
             menus.Add("menu4", "b - Back");
@@ -90,17 +91,11 @@ namespace lp2_2019_p1
 
             createdFilter = true;
         }
-        private void OptionFilter()
-        {
-
-        }
-
         private void SearchPerPerson()
         {
             Console.WriteLine("Please type the name of the person you're " +
                 "looking for");
             string person = Console.ReadLine();
-            // show list
         }
     }
 }
