@@ -25,6 +25,11 @@ namespace lp2_2019_p1
         // Instatiate the data extracted from the files.
         private FileManager database = new FileManager();
 
+        /// <summary>
+        /// This method asks the user witch type 
+        /// he wants and saves it.
+        /// </summary>
+        /// <returns></returns>
         public string TypeInputFilter()
         {
             Console.WriteLine("From the list of types, choose one.");
@@ -36,6 +41,11 @@ namespace lp2_2019_p1
             return searchType;
         }
 
+        /// <summary>
+        /// This method asks the user witch name 
+        /// he wants and saves it.
+        /// </summary>
+        /// <returns></returns>
         public string NameInputFilter()
         {
             Console.WriteLine("'Name' to search for: ");
@@ -44,15 +54,24 @@ namespace lp2_2019_p1
             return searchPrimaryTitle;
         }
 
+        /// <summary>
+        /// This method asks the user if the type is for adults
+        /// or not and saves it.
+        /// </summary>
+        /// <returns></returns>
         public string AdultsInputFilter()
         {
-            // NOT DONE.
             Console.WriteLine("For adults? [0] for False, [1] for True.");
             string input = Console.ReadLine().ToLower();
             searchForAdults = input;
             return searchForAdults;
         }
 
+        /// <summary>
+        /// This method asks the user witch year started 
+        /// the type he wants and saves it.
+        /// </summary>
+        /// <returns></returns>
         public string StartYearInputFilter()
         {
             Console.WriteLine("Start year of the title: ");
@@ -60,7 +79,11 @@ namespace lp2_2019_p1
             searchStartYear = input;
             return searchStartYear;
         }
-
+        /// <summary>
+        /// This method asks the user witch year ended 
+        /// the series he wants and saves it.
+        /// </summary>
+        /// <returns></returns>
         public string EndYearInputFilter()
         {
             Console.WriteLine("End year of the title: ");
@@ -69,6 +92,11 @@ namespace lp2_2019_p1
             return searchEndYear;
         }
 
+        /// <summary>
+        /// This method asks the user to choose up to 3 genres
+        /// and saves them.
+        /// </summary>
+        /// <returns></returns>
         public string[] GenresInputFilter()
         {
             Console.WriteLine("Write up to 3 genres, according to the list.");
@@ -92,6 +120,11 @@ namespace lp2_2019_p1
             return searchGenres;
         }
 
+        /// <summary>
+        /// This method asks the user to put the type
+        /// rating he wants and saves it.
+        /// </summary>
+        /// <returns></returns>
         public string RatingsInputFilter()
         {
             Console.WriteLine("Between 0 to 10, choose a number.");
@@ -105,6 +138,10 @@ namespace lp2_2019_p1
             return searchRatings;
         }
 
+        /// <summary>
+        /// This method creates a filtred array with all 
+        /// the information saved from the user.
+        /// </summary>
         public void Filter()
         {
             try
@@ -145,6 +182,12 @@ namespace lp2_2019_p1
             }
         }
 
+        /// <summary>
+        /// This method asks the user in witch order
+        /// he wants to be shown of the filtred list.
+        /// </summary>
+        /// <param name="titles"></param>
+        /// <returns></returns>
         private StructTitleTotal[] OrderByResultsBy(StructTitleTotal[] titles)
         {
             Console.WriteLine("Order your list by..." +
@@ -175,6 +218,9 @@ namespace lp2_2019_p1
             }
         }
 
+        /// <summary>
+        /// This method shows to the user the filtred array.
+        /// </summary>
         public void ShowResults()
         {
             // Reset back to 0.
@@ -192,7 +238,7 @@ namespace lp2_2019_p1
                         && i < queryResults.Length;
                     i++)
                 {
-                    // Usar para melhorar a forma como mostramos os géneros
+                    //Used to upgrate the way we show the genres.
                     bool firstGenre = true;
 
                     // Get the current title.
@@ -241,6 +287,13 @@ namespace lp2_2019_p1
             GC.WaitForPendingFinalizers();
         }
 
+        /// <summary>
+        /// This method verifies if the information 
+        /// put by the user is null.
+        /// </summary>
+        /// <param name="property"></param>
+        /// <param name="varstring"></param>
+        /// <returns></returns>
         private bool ContainString(string property, string? varstring)
         {
             bool b;
@@ -252,14 +305,17 @@ namespace lp2_2019_p1
 
             return b;
         }
-
+        /// <summary>
+        /// This method is to show the detailed information
+        /// of the selected title.
+        /// </summary>
         private void ChooseTitle()
         {
             int choice;
             Console.Write("Type the number of your title:");
             choice = Convert.ToInt32(Console.ReadLine());
 
-            //ver agora os detalhos do titulo selecionado//
+            //Showing the detailed info of the selectd title//
             Console.WriteLine($"Type: {queryResults[choice].RTitleType}" +
                 $"\nName: {queryResults[choice].RPrimaryTitle}" +
                 $"\nAdult: {queryResults[choice].RForAdults}" +
