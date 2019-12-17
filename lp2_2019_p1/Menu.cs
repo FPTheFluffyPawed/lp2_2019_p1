@@ -6,30 +6,35 @@ namespace lp2_2019_p1
 {
     class Menu
     {
-        // Instance Variables
-        // The dictionary is used to swap between menus
+        // Instance Variables.
+
+        // The dictionary is used to swap between menus.
         Dictionary<string, string> menus = new Dictionary<string, string>();
         // The List is used to save the current menu the user's in so we can go
-        // back between the menus
+        // back between the menus.
         List<string> historic = new List<string>();
         Searcher searcher = new Searcher();
 
-        // Variables
+        // Variables.
         string currentMenu;
         bool createdFilter = false;
 
-        // Constructor Menu
+        /// <summary>
+        /// Constructor Menu.
+        /// </summary>
         public Menu()
         {
             Console.WriteLine("Loading");
             Execute();
         }
-
+        /// <summary>
+        /// This method executes the  menu.
+        /// </summary>
         private void Execute()
         {
-            menus.Add("menu1", "1 - Choose by title");
+            menus.Add("menu1", "1 - Choose by title \nb - Exit program");
 
-            // titles path (decision 1)
+            // titles path (decision 1).
             menus.Add("menu2", "1 - Filter type \n2 - Show results \nb - Back");
             menus.Add("menu3", "1 -  \nb - Back");
             menus.Add("menu4", "b - Back");
@@ -51,10 +56,6 @@ namespace lp2_2019_p1
                         break;
                     
                     case "2":
-                        if (currentMenu == "menu1")
-                        {
-
-                        }
                         if (currentMenu == "menu2")
                         {
                             if (createdFilter)
@@ -69,6 +70,10 @@ namespace lp2_2019_p1
                         break;
                     
                     case "b":
+                        if (currentMenu == "menu1")
+                        {
+                            System.Environment.Exit(1);
+                        }
                         currentMenu = historic[historic.Count - 1];
                         historic.RemoveAt(historic.Count - 1);
                         break;
@@ -78,6 +83,12 @@ namespace lp2_2019_p1
                 }
             }
         }
+
+        /// <summary>
+        /// This method asks to the user 
+        /// to put the information asked
+        /// and saves it in the Searcher class.
+        /// </summary>
         private void SearchPerTitle()
         {
             searcher.TypeInputFilter();
@@ -89,18 +100,6 @@ namespace lp2_2019_p1
             searcher.GenresInputFilter();
 
             createdFilter = true;
-        }
-        private void OptionFilter()
-        {
-
-        }
-
-        private void SearchPerPerson()
-        {
-            Console.WriteLine("Please type the name of the person you're " +
-                "looking for");
-            string person = Console.ReadLine();
-            // show list
         }
     }
 }
