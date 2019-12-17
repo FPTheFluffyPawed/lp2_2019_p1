@@ -17,10 +17,10 @@ namespace lp2_2019_p1
             fileRatingsBasicsFull;
 
         // Our Database for Titles complete with all of our information.
-        public ICollection<StructTitle> Titles { get; private set; }
+        public Dictionary<string, StructTitle> Titles { get; private set; }
 
         // Our Database for Ratings complete with all of our information.
-        public ICollection<StructRatings> Ratings { get; private set; }
+        public Dictionary<string, StructRatings> Ratings { get; private set; }
 
         // Our set to contain all possible genres.
         public ISet<string> AllGenres { get; private set; }
@@ -48,7 +48,7 @@ namespace lp2_2019_p1
             OpenTitlesFile((line) => numTitles++);
 
             // Create our list with a maximum.
-            Titles = new List<StructTitle>(numTitles);
+            Titles = new Dictionary<string, StructTitle>(numTitles);
 
             // Create our set for genres.
             AllGenres = new HashSet<string>();
@@ -63,7 +63,7 @@ namespace lp2_2019_p1
             OpenRatingsFile((line) => numRatings++);
 
             // Create our Ratings list with a maximum.
-            Ratings = new List<StructRatings>(numRatings);
+            Ratings = new Dictionary<string, StructRatings>(numRatings);
 
             // Read the information from Ratings and add it to our collection.
             OpenRatingsFile(AddInformationToRatings);
@@ -187,7 +187,7 @@ namespace lp2_2019_p1
                 titleIdentifier, titleType, titlePrimaryTitle, titleAdult,
                 titleStartYear, titleEndYear, cleanTitleGenres.ToArray());
 
-            Titles.Add(t);
+            Titles[t.TitleIdentifier] = t;
         }
 
         private void AddInformationToRatings(string line)
@@ -199,7 +199,7 @@ namespace lp2_2019_p1
             StructRatings r = new StructRatings(
                 titleIdentifier, averageRating);
 
-            Ratings.Add(r);
+            Ratings[r.RatingsIdentifier] = r;
         }
     }
 }

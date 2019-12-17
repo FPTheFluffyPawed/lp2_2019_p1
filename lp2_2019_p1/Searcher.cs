@@ -106,26 +106,26 @@ namespace lp2_2019_p1
             {
                 queryResults =
                         (from title in database.Titles
-                        join ratings in database.Ratings on title.TitleIdentifier equals ratings.RatingsIdentifier into titleWithRatings
+                        join ratings in database.Ratings on title.Value.TitleIdentifier equals ratings.Value.RatingsIdentifier into titleWithRatings
                         from tR in titleWithRatings
-                        where (searchType == null || title.TitleType.Contains(searchType)) &&
-                    ContainString(title.PrimaryTitle, searchPrimaryTitle) &&
-                    ContainString(title.ForAdults.ToString(), searchForAdults) &&
-                    ContainString(title.StartYear.ToString(), searchStartYear) &&
-                    ContainString(title.EndYear.ToString(), searchEndYear) &&
-                    tR.RatingsAverage >= float.Parse(searchRatings) &&
+                        where (searchType == null || title.Value.TitleType.Contains(searchType)) &&
+                    ContainString(title.Value.PrimaryTitle, searchPrimaryTitle) &&
+                    ContainString(title.Value.ForAdults.ToString(), searchForAdults) &&
+                    ContainString(title.Value.StartYear.ToString(), searchStartYear) &&
+                    ContainString(title.Value.EndYear.ToString(), searchEndYear) &&
+                    tR.Value.RatingsAverage >= float.Parse(searchRatings) &&
                     (searchGenres == null ||
-                    !searchGenres.Except(title.Genres).Any())
+                    !searchGenres.Except(title.Value.Genres).Any())
                         select new StructTitleTotal
                         {
-                            RTitleIdentifier = title.TitleIdentifier,
-                            RTitleType = title.TitleType,
-                            RPrimaryTitle = title.PrimaryTitle,
-                            RForAdults = title.ForAdults,
-                            RStartYear = title.StartYear,
-                            REndYear = title.EndYear,
-                            RRatingsAverage = tR.RatingsAverage,
-                            RGenres = title.Genres
+                            RTitleIdentifier = title.Value.TitleIdentifier,
+                            RTitleType = title.Value.TitleType,
+                            RPrimaryTitle = title.Value.PrimaryTitle,
+                            RForAdults = title.Value.ForAdults,
+                            RStartYear = title.Value.StartYear,
+                            REndYear = title.Value.EndYear,
+                            RRatingsAverage = tR.Value.RatingsAverage,
+                            RGenres = title.Value.Genres
                         })
                         .ToArray();
 
